@@ -9,17 +9,23 @@ library("dplyr")
 library("ggplot2")
 setwd("~/Desktop")
 cts <- as.matrix(read.csv("  ",row.names="Geneid"))
-cts
 coldata <- read.csv("metadatanew.csv", row.names="Name")
-coldata
+coldata$Condition<-as.factor(coldata$Condition)
 dds <- DESeqDataSetFromMatrix(countData=cts, colData=coldata, design=~Condition)
 all(rownames(coldata) == colnames(cts))
-dds
 vsd <- vst(dds, blind=TRUE)  
-
 plotPCA(vsd, intgroup="Condition")
 
-DEgenes <-results(DESeq(dds),tidy=T)
+DDS<-DESeq(dds)
+mod_mat <- model.matrix(design(DDS), colData(DDS))
+colnames(mod_mat)<-sub("Condition", "",colnames(mod_mat))
+t75NS <- colMeans(mod_mat[dds$Condition == "t75NS", ])
+tBTP <- colMeans(mod_mat[dds$Condition == "tBTP", ])
+#repeat previous two lines for all other tissues...
+t75NSvBTP <- results(DDS, contrast = t75NS - tBTP)
+#repeat the previous line for all other tissues...
+
+# DEgenes <-results(DESeq(dds),tidy=T)
 #Use the following color-blind-friendly colours for plots whenever possible
 myPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
