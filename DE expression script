@@ -22,7 +22,7 @@ colnames(mod_mat)<-sub("Condition", "",colnames(mod_mat))
 t75NS <- colMeans(mod_mat[dds$Condition == "75NS", ])
 tBTP <- colMeans(mod_mat[dds$Condition == "BTP", ])
 #repeat previous two lines for all other tissues...
-t75NSvBTP <- results(DDS, contrast = t75NS - tBTP)
+t75NSvBTP <- results(DDS, contrast = t75NS - tBTP, tidy =T)
 #repeat the previous line for all other tissues...
 
 # DEgenes <-results(DESeq(dds),tidy=T)
