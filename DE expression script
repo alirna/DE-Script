@@ -29,7 +29,7 @@ t75NSvBTP <- results(DDS, contrast = t75NS - tBTP, tidy =T)
 #Use the following color-blind-friendly colours for plots whenever possible
 myPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
-plotDEgenes <- DEgenes %>% mutate(gene_type = case_when(log2FoldChange >= 1 & padj <= 0.05 ~ "up", log2FoldChange <= -1 & padj <= 0.05 ~ "down", TRUE ~ "ns")) 
+plotDEgenes <- t75NSvBTP %>% mutate(gene_type = case_when(log2FoldChange >= 1 & padj <= 0.05 ~ "up", log2FoldChange <= -1 & padj <= 0.05 ~ "down", TRUE ~ "ns")) 
 cols <- densCols(plotDEgenes$log2FoldChange, plotDEgenes$padj)
 cols[plotDEgenes$gene_type=='up']<-"#E69F00"
 cols[plotDEgenes$gene_type=='down']<-"#0072B2"
