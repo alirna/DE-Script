@@ -24,13 +24,13 @@ tBTP <- colMeans(mod_mat[dds$Condition == "BTP", ])
 #repeat previous two lines for all other tissues...
 t75NSvBTP <- results(DDS, contrast = t75NS - tBTP, tidy =T)
 #repeat the previous line for all other comparisons...
-write.csv("~/Desktop/differential.expression.results.75NSvBTP.csv", row.names = F)
-#repeat the previous line for all other comparisons...
 
 #Use the following color-blind-friendly colours for plots whenever possible
 myPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
 
 plotDEgenes <- t75NSvBTP %>% mutate(gene_type = case_when(log2FoldChange >= 1 & padj <= 0.05 ~ "up", log2FoldChange <= -1 & padj <= 0.05 ~ "down", TRUE ~ "ns")) 
+write.csv(plotDEgenes, "~/Desktop/differential.expression.results.75NSvBTP.csv", row.names = F)
+#repeat the previous line for all other comparisons...
 cols <- densCols(plotDEgenes$log2FoldChange, plotDEgenes$padj)
 cols[plotDEgenes$gene_type=='up']<-"#E69F00"
 cols[plotDEgenes$gene_type=='down']<-"#0072B2"
